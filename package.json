@@ -1,0 +1,17 @@
+{
+  "name": "pipettingbot-controller",
+  "version": "0.0.0",
+  "description": "",
+  "main": "commun.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ciro S. Costa <ciro9758@gmail.com> (http://www.cirocosta.com.br/)",
+  "license": "ISC",
+  "dependencies": {
+    "grbl": "^0.2.0",
+    "serialport": "^1.4.0",
+    "serialport-manager": "^0.2.3",
+    "split": "^0.3.0"
+  }
+}
