@@ -1,32 +1,13 @@
-#!/usr/bin/env node
 
-var serialport = require('serialport');
-var grbl = require('grbl');
 var spm = require('serialport-manager');
 var split = require('split');
 
-// serialport.list(function (err, ports) {
-//  if (err) throw err;
-
-//  ports.forEach(function (port) {
-//    console.log(port);
-//  });
-// });
-
-// grbl(function(machine) {
-//   process.stdin.pipe(machine);
-//   process.stdin.resume();
-//   machine.on('line', function(line) {
-//     process.stdout.write('line:' + line + '\n');
-//   });
-// });
-
 spm(function (err, manager) {
+  console.log("dashiudhas");
+
   if (err) throw err;
 
   manager.on('device', function (device) {
-    var buf = '';
-
     if (device.info && device.info.signature.toLowerCase().indexOf('grbl') > -1) {
       device.connect(function (err, stream) {
         if (err) throw err;
@@ -57,7 +38,5 @@ spm(function (err, manager) {
         });
       });
     }
-
-    console.log(device);
   });
 });
