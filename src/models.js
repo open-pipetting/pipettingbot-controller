@@ -3,20 +3,29 @@ var split = require('split');
 if (!$q)
   var $q = require('q');
 
-/**
- * Represents the conjunction of machines that we might have to search
- */
 function Machines () {}
 
+/**
+ * [search description]
+ * @param  {function} onValidDeviceFound callback function to be
+ * resolved when a valid device is found (if not, false).
+ */
 Machines.prototype.search = function (onValidDeviceFound) {
   var scope = this;
+  serialPort.list(function (err, ports) {
+    ports.forEach(function (port) {
+      var device = {
+        info: port
+      };
 
-  spm(function (err, manager) {
-    if (err) throw err;
-
-    manager.on('device', function (device) {
-      if (scope.isValidDevice(device))
-        onValidDeviceFound(device);
+      spm(port.comName, function (e, sp, sig) {
+        device.info.signature = sig;
+        if (scope.isValidDevice(device)) {
+          onValidDeviceFound(device);
+        } else {
+          onValidDeviceFound(false);
+        }
+      });
     });
   });
 };
