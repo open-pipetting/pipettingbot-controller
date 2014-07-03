@@ -13,6 +13,7 @@
     "q": "^1.0.1",
     "serialport": "^1.4.0",
     "serialport-manager": "^0.2.3",
-    "split": "^0.3.0"
+    "split": "^0.3.0",
+    "yaspm": "0.0.0"
   }
 }

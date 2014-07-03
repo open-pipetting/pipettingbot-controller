@@ -1,34 +1,23 @@
 #!/usr/bin/env node
 
-var spm = require('./spm');
-var serialport = require('serialport');
-var split = require('split');
+var yaspm = require('yaspm')
+	,	machines = new yaspm.Machines();
 
-serialport.list(function (err, ports) {
-	ports.forEach(function (port) {
+machines.search(function (err, device) {
+	if (err) throw err;
 
-		console.log(port);
-
-		spm(port.comName, function (e, sp, sig) {
-			if (e) throw e;
-
-			console.log(sig.toLowerCase());
-
-			var sp = new serialport.SerialPort(port.comName);
-			sp.on('open', function () {
-				console.log("open!");
-
-				setInterval(function () {
-					sp.write('?\n', function (err, results) {
-						if (err) console.error("err:", err);
-					});
-				}, 300);
-
-				sp.pipe(split()).on('data', function (data) {
-					console.log('data:', data.toString());
-				});
-			});
+	device.connect(function () {
+		device.registerToData(function (err, d) {
+			if (!err) {
+				console.log(d);
+			}
 		});
+
+		setInterval(function () {
+			device.write('?\n', function (err) {
+				if (err) throw err;
+			});
+		}, 300);
 	});
 });
 
